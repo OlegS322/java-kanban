@@ -1,3 +1,8 @@
+package com.yandexPracticum.kanban.service;
+
+import com.yandexPracticum.kanban.model.*;
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +47,13 @@ public class TaskManager {
     }
 
     public void deleteAllSubtasks() {
+        // Очистка списка всех подзадач
         subtasks.clear();
+
+        // Обновление статусов эпиков и очистка списков подзадач внутри эпиков
         for (Epic epic : epics.values()) {
-            epic.getSubtaskIds().clear();
-            updateEpicStatus(epic);
+            epic.getSubtaskIds().clear(); // Очистка списка идентификаторов подзадач внутри эпика
+            updateEpicStatus(epic); // Обновление статуса эпика
         }
     }
 

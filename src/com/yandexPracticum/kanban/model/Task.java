@@ -1,3 +1,5 @@
+package com.yandexPracticum.kanban.model;
+
 import java.util.Objects;
 
 // Базовый класс для задач
@@ -7,7 +9,7 @@ public class Task {
     protected int id; // Уникальный идентификатор задачи
     protected TaskStatus status; // Статус задачи
 
-    // Конструктор класса Task
+    // Конструктор класса com.yandexPracticum.kanban.model.Task
     public Task(String title, String description, int id, TaskStatus status) {
         this.title = title;
         this.description = description;
@@ -65,7 +67,7 @@ public class Task {
     // Переопределение метода toString вывода информации о задаче
     @Override
     public String toString() {
-        return "Task{" +
+        return "com.yandexPracticum.kanban.model.Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
