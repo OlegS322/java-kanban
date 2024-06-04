@@ -14,6 +14,8 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>(); // Хранение обычных задач
     private Map<Integer, Subtask> subtasks = new HashMap<>(); // Хранение подзадач
     private Map<Integer, Epic> epics = new HashMap<>(); // Хранение эпиков
+    private ArrayList<Task> tasksHistory = new ArrayList<>();
+
 
     // Методы для работы с обычными задачами
     @Override
@@ -28,7 +30,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        if (task != null) {
+            addToHistory(task);
+        }
+        return task;
     }
 
     @Override
@@ -67,7 +73,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask getSubtaskById(int id) {
-        return subtasks.get(id);
+        Subtask subtask = subtasks.get(id);
+        if (subtask != null) {
+            addToHistory(subtask);
+        }
+        return subtask;
     }
 
     @Override
@@ -108,7 +118,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        return epics.get(id);
+        Epic epic = epics.get(id);
+        if (epic != null) {
+            addToHistory(epic);
+        }
+        return epic;
     }
 
     @Override
@@ -166,5 +180,17 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(TaskStatus.IN_PROGRESS);
         }
+    }
+
+    private void addToHistory(Task task) {
+        if (tasksHistory.size() == 10) {
+            tasksHistory.removeFirst();
+        }
+        tasksHistory.add(task);
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return new ArrayList<>(tasksHistory);
     }
 }

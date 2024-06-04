@@ -7,6 +7,8 @@ import com.yandexPracticum.kanban.model.Task;
 import java.util.List;
 
 public interface TaskManager {
+    // метод для просмотра 10 последних задач
+    List<Task> getHistory();
     // Методы для работы с обычными задачами
     List<Task> getAllTasks();
 
