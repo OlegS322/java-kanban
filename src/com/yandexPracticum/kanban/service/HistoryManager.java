@@ -2,9 +2,10 @@ package com.yandexPracticum.kanban.service;
 
 import com.yandexPracticum.kanban.model.Task;
 
-public interface HistoryManager  {
+import java.util.List;
 
-    void add(Task task); //помечает задачи как просмотренные
+public interface HistoryManager {
+    void add(Task task);
 
-    void getHistory(); // возвращает список
+    List<Task> getHistory();
 }

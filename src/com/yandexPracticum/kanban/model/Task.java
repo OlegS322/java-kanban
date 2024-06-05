@@ -2,14 +2,12 @@ package com.yandexPracticum.kanban.model;
 
 import java.util.Objects;
 
-// Базовый класс для задач
 public class Task {
-    protected String title; // Название задачи
-    protected String description; // Описание задачи
-    protected int id; // Уникальный идентификатор задачи
-    protected TaskStatus status; // Статус задачи
+    protected String title;
+    protected String description;
+    protected int id;
+    protected TaskStatus status;
 
-    // Конструктор класса com.yandexPracticum.kanban.model.Task
     public Task(String title, String description, int id, TaskStatus status) {
         this.title = title;
         this.description = description;
@@ -17,7 +15,6 @@ public class Task {
         this.status = status;
     }
 
-    // Геттеры и сеттеры
     public String getTitle() {
         return title;
     }
@@ -50,7 +47,6 @@ public class Task {
         this.status = status;
     }
 
-    // Переопределение методов equals и hashCode для сравнения задач по идентификатору
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,7 +60,6 @@ public class Task {
         return Objects.hash(id);
     }
 
-    // Переопределение метода toString вывода информации о задаче
     @Override
     public String toString() {
         return "com.yandexPracticum.kanban.model.Task{" +

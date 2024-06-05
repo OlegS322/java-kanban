@@ -2,22 +2,18 @@ package com.yandexPracticum.kanban.service;
 
 import com.yandexPracticum.kanban.model.*;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
-// Класс для управления задачами
 public class InMemoryTaskManager implements TaskManager {
-    private int nextId = 1; // Счётчик для генерации уникальных идентификаторов задач
-    private Map<Integer, Task> tasks = new HashMap<>(); // Хранение обычных задач
-    private Map<Integer, Subtask> subtasks = new HashMap<>(); // Хранение подзадач
-    private Map<Integer, Epic> epics = new HashMap<>(); // Хранение эпиков
-    private ArrayList<Task> tasksHistory = new ArrayList<>();
+    private int nextId = 1;
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Subtask> subtasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private HistoryManager historyManager = Managers.getDefaultHistory();
 
-
-    // Методы для работы с обычными задачами
     @Override
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
@@ -32,7 +28,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
         if (task != null) {
-            addToHistory(task);
+            historyManager.add(task);
         }
         return task;
     }
@@ -53,7 +49,6 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.remove(id);
     }
 
-    // Методы для работы с подзадачами
     @Override
     public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
@@ -61,13 +56,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSubtasks() {
-        // Очистка списка всех подзадач
         subtasks.clear();
-
-        // Обновление статусов эпиков и очистка списков подзадач внутри эпиков
         for (Epic epic : epics.values()) {
-            epic.getSubtaskIds().clear(); // Очистка списка идентификаторов подзадач внутри эпика
-            updateEpicStatus(epic); // Обновление статуса эпика
+            epic.getSubtaskIds().clear();
+            updateEpicStatus(epic);
         }
     }
 
@@ -75,17 +67,22 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
         if (subtask != null) {
-            addToHistory(subtask);
+            historyManager.add(subtask);
         }
         return subtask;
     }
 
     @Override
     public void createSubtask(Subtask subtask) {
-        subtask.setId(nextId++);
-        subtasks.put(subtask.getId(), subtask);
-        epics.get(subtask.getEpicId()).addSubtaskId(subtask.getId());
-        updateEpicStatus(epics.get(subtask.getEpicId()));
+        Epic epic = epics.get(subtask.getEpicId());
+        if (epic != null) {
+            subtask.setId(nextId++);
+            subtasks.put(subtask.getId(), subtask);
+            epic.addSubtaskId(subtask.getId());
+            updateEpicStatus(epic);
+        } else {
+            System.out.println("Epic not found for subtask: " + subtask.getTitle());
+        }
     }
 
     @Override
@@ -104,7 +101,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    // Методы для работы с эпиками
     @Override
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -120,7 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            addToHistory(epic);
+            historyManager.add(epic);
         }
         return epic;
     }
@@ -146,7 +142,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    // Метод для получения всех подзадач определённого эпика
     @Override
     public List<Subtask> getSubtasksForEpic(int epicId) {
         List<Subtask> result = new ArrayList<>();
@@ -159,7 +154,6 @@ public class InMemoryTaskManager implements TaskManager {
         return result;
     }
 
-    // Метод для обновления статуса эпика на основе статусов его подзадач
     private void updateEpicStatus(Epic epic) {
         boolean allNew = true;
         boolean allDone = true;
@@ -182,15 +176,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private void addToHistory(Task task) {
-        if (tasksHistory.size() == 10) {
-            tasksHistory.removeFirst();
-        }
-        tasksHistory.add(task);
-    }
-
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(tasksHistory);
+        return historyManager.getHistory();
     }
 }

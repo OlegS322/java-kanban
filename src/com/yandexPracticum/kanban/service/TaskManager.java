@@ -7,9 +7,8 @@ import com.yandexPracticum.kanban.model.Task;
 import java.util.List;
 
 public interface TaskManager {
-    // метод для просмотра 10 последних задач
     List<Task> getHistory();
-    // Методы для работы с обычными задачами
+
     List<Task> getAllTasks();
 
     void deleteAllTasks();
@@ -22,7 +21,6 @@ public interface TaskManager {
 
     void deleteTaskById(int id);
 
-    // Методы для работы с подзадачами
     List<Subtask> getAllSubtasks();
 
     void deleteAllSubtasks();
@@ -35,7 +33,6 @@ public interface TaskManager {
 
     void deleteSubtaskById(int id);
 
-    // Методы для работы с эпиками
     List<Epic> getAllEpics();
 
     void deleteAllEpics();
@@ -48,6 +45,5 @@ public interface TaskManager {
 
     void deleteEpicById(int id);
 
-    // Метод для получения всех подзадач определённого эпика
     List<Subtask> getSubtasksForEpic(int epicId);
 }

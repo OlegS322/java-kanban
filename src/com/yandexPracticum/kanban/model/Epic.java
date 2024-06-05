@@ -3,17 +3,14 @@ package com.yandexPracticum.kanban.model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Класс для эпиков
 public class Epic extends Task {
-    private List<Integer> subtaskIds; // Список идентификаторов подзадач
+    private List<Integer> subtaskIds;
 
-    // Конструктор класса com.yandexPracticum.kanban.model.Epic
     public Epic(String title, String description, int id) {
         super(title, description, id, TaskStatus.NEW);
         this.subtaskIds = new ArrayList<>();
     }
 
-    // Геттеры и методы для работы с подзадачами
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }
@@ -26,7 +23,6 @@ public class Epic extends Task {
         this.subtaskIds.remove(Integer.valueOf(subtaskId));
     }
 
-    // Переопределение метода toString информации об эпике
     @Override
     public String toString() {
         return "com.yandexPracticum.kanban.model.Epic{" +
