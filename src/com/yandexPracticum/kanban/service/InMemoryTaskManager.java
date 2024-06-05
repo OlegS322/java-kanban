@@ -81,7 +81,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.addSubtaskId(subtask.getId());
             updateEpicStatus(epic);
         } else {
-            System.out.println("Epic not found for subtask: " + subtask.getTitle());
+            System.out.println("Эпик для подзадачи не найден " + subtask.getTitle());
         }
     }
 
