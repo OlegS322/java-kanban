@@ -75,20 +75,40 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void createSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
-        if (epic != null) {
-            subtask.setId(nextId++);
-            subtasks.put(subtask.getId(), subtask);
-            epic.addSubtaskId(subtask.getId());
-            updateEpicStatus(epic);
+        if (epic == null) {
+            epic = new Epic("New Epic", "Default description", subtask.getEpicId());
+            createEpic(epic);
         } else {
-            System.out.println("Эпик для подзадачи не найден " + subtask.getTitle());
+            System.out.println("Предупреждение: Эпик с таким же id уже существует.");
         }
+
+        // Проверяем, что эпик не ссылается сам на себя
+        if (epic.getId() == subtask.getId()) {
+            System.out.println("Ошибка: Эпик не может быть добавлен в самого себя как подзадача.");
+            return;
+        }
+
+        // Создаем сабтаск и обновляем статус эпика
+        subtask.setId(nextId++);
+        subtasks.put(subtask.getId(), subtask);
+        epic.addSubtaskId(subtask.getId());
+        updateEpicStatus(epic);
     }
+
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        updateEpicStatus(epics.get(subtask.getEpicId()));
+        Epic epic = epics.get(subtask.getEpicId());
+        if (epic != null) {
+            if (epic.getId() == subtask.getId()) {
+                System.out.println("Ошибка: Эпик не может быть обновлен самим собой.");
+                return;
+            }
+            subtasks.put(subtask.getId(), subtask);
+            updateEpicStatus(epic);
+        } else {
+            System.out.println("Подзадача ссылается на несуществующий эпик.");
+        }
     }
 
     @Override
