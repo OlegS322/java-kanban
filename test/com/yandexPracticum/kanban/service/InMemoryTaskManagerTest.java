@@ -15,10 +15,10 @@ class InMemoryTaskManagerTest {
         TaskManager taskManager = new InMemoryTaskManager();
 
         // Создаем новый Epic
-        Epic epic = new Epic("Epic", "Description", 1);
+        Epic epic = new Epic("Эпик", "Описание", 1);
 
         // Создаем новый Subtask, привязанный к Epic
-        Subtask subtask = new Subtask("Subtask", "Description", 2, TaskStatus.NEW, 1);
+        Subtask subtask = new Subtask("Подзадача", "Описание", 2, TaskStatus.NEW, 1);
 
         // Добавляем Epic в менеджер задач
         taskManager.createEpic(epic);
@@ -38,8 +38,8 @@ class InMemoryTaskManagerTest {
     public void testTaskIdConflict() {
         TaskManager taskManager = Managers.getDefault();
 
-        Task task1 = new Task("Task 1", "Description 1", 1, TaskStatus.NEW);
-        Task task2 = new Task("Task 2", "Description 2", 2, TaskStatus.NEW);
+        Task task1 = new Task("Задача 1", "Описание 1", 1, TaskStatus.NEW);
+        Task task2 = new Task("Задача 2", "Описание 2", 2, TaskStatus.NEW);
         taskManager.createTask(task1);
         taskManager.createTask(task2);
 

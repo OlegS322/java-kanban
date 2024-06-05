@@ -76,7 +76,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void createSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
         if (epic == null) {
-            epic = new Epic("New Epic", "Default description", subtask.getEpicId());
+            epic = new Epic(epic.getTitle(), epic.getDescription(), subtask.getEpicId());
             createEpic(epic);
         } else {
             System.out.println("Предупреждение: Эпик с таким же id уже существует.");
