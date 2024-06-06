@@ -1,7 +1,7 @@
-package com.yandexPracticum.kanban.model;
+package com.practicum.kanban.model;
 
-import com.yandexPracticum.kanban.service.HistoryManager;
-import com.yandexPracticum.kanban.service.TaskManager;
+import com.practicum.kanban.service.HistoryManager;
+import com.practicum.kanban.service.TaskManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

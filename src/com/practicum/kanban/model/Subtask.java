@@ -1,4 +1,4 @@
-package com.yandexPracticum.kanban.model;
+package com.practicum.kanban.model;
 
 public class Subtask extends Task {
     private int epicId;

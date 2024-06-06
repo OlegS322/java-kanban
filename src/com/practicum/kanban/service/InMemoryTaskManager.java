@@ -1,6 +1,6 @@
-package com.yandexPracticum.kanban.service;
+package com.practicum.kanban.service;
 
-import com.yandexPracticum.kanban.model.*;
+import com.practicum.kanban.model.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,10 +76,8 @@ public class InMemoryTaskManager implements TaskManager {
     public void createSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
         if (epic == null) {
-            epic = new Epic(epic.getTitle(), epic.getDescription(), subtask.getEpicId());
-            createEpic(epic);
-        } else {
-            System.out.println("Предупреждение: Эпик с таким же id уже существует.");
+            System.out.println("Ошибка: Эпик с указанным ID не существует.");
+            return;
         }
 
         // Проверяем, что эпик не ссылается сам на себя
@@ -88,22 +86,16 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        // Создаем сабтаск и обновляем статус эпика
         subtask.setId(nextId++);
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId());
         updateEpicStatus(epic);
     }
 
-
     @Override
     public void updateSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
-            if (epic.getId() == subtask.getId()) {
-                System.out.println("Ошибка: Эпик не может быть обновлен самим собой.");
-                return;
-            }
             subtasks.put(subtask.getId(), subtask);
             updateEpicStatus(epic);
         } else {

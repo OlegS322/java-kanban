@@ -1,7 +1,7 @@
-package com.yandexPracticum.kanban;
+package com.practicum.kanban;
 
-import com.yandexPracticum.kanban.model.*;
-import com.yandexPracticum.kanban.service.*;
+import com.practicum.kanban.model.*;
+import com.practicum.kanban.service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {

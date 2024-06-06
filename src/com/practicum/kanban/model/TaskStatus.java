@@ -1,4 +1,4 @@
-package com.yandexPracticum.kanban.model;
+package com.practicum.kanban.model;
 
 // Перечисление для статусов задач
 public enum TaskStatus {

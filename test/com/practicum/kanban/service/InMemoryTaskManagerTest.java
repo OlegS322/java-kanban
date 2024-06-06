@@ -1,10 +1,7 @@
-package com.yandexPracticum.kanban.service;
+package com.practicum.kanban.service;
 
-import com.yandexPracticum.kanban.model.*;
-import org.junit.jupiter.api.BeforeEach;
+import com.practicum.kanban.model.*;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +24,7 @@ class InMemoryTaskManagerTest {
         taskManager.createSubtask(subtask);
 
         // Получаем Subtask из менеджера задач
-        Subtask retrievedSubtask = (Subtask) taskManager.getSubtaskById(2);
+        Subtask retrievedSubtask = taskManager.getSubtaskById(2);
 
         // Проверяем, что Subtask успешно создан и добавлен в менеджер задач
         assertNotNull(retrievedSubtask);
